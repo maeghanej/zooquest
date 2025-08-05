@@ -7,6 +7,12 @@ export interface AnimalData {
     instructions: string;
     difficulty: string;
     images?: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
+    questions?: { question: string; correctAnswer: boolean; explanation: string }[];
+    options?: { src: string; alt: string; isEdible: boolean; explanation: string }[];
+    behaviors?: { label: string; correctSeason: string; explanation: string }[];
+    question?: string;
+    correctAnswer?: boolean;
+    explanation?: string;
   };
   next: string;
   funFact: string;
@@ -57,8 +63,25 @@ export const animalData: Record<string, AnimalData> = {
     habitat: "Arctic sea ice and coastal areas",
     game: {
       type: "true-false",
-      instructions: "Is this action cool or not cool for polar bears? Learn about behaviors that help or harm these amazing animals.",
-      difficulty: "Medium"
+      instructions: "Is this action cool or not cool for polar bears?",
+      difficulty: "Medium",
+      questions: [
+        {
+          question: "Polar bears can swim for days to find food when sea ice melts.",
+          correctAnswer: true,
+          explanation: "Polar bears are excellent swimmers and can swim for days at a time! They use their large paws as paddles and can cover hundreds of miles in search of food when sea ice is scarce. This adaptation helps them survive in a changing Arctic environment."
+        },
+        {
+          question: "Polar bears hibernate during the winter months.",
+          correctAnswer: false,
+          explanation: "Polar bears don't hibernate like other bears! They remain active year-round, hunting seals on sea ice. Only pregnant females den up to give birth and care for their cubs during the winter."
+        },
+        {
+          question: "Polar bears have black skin under their white fur.",
+          correctAnswer: true,
+          explanation: "Polar bears have black skin that helps absorb heat from the sun! Their white fur is actually transparent and hollow, which helps insulate them and camouflage them in the snow and ice."
+        }
+      ]
     },
     next: "/stop/otter",
     funFact: "Polar bears have black skin under their white fur to absorb heat from the sun!"
@@ -68,9 +91,35 @@ export const animalData: Record<string, AnimalData> = {
     description: "Playful river otters are excellent swimmers and can be found in rivers, lakes, and coastal areas.",
     habitat: "Rivers, lakes, and coastal waters",
     game: {
-      type: "observation",
-      instructions: "What is the otter playing with? Watch carefully and identify the objects in the otter's environment.",
-      difficulty: "Easy"
+      type: "food-sort",
+      instructions: "Which of these things would a river otter eat?",
+      difficulty: "Easy",
+      options: [
+        { 
+          src: "/images/fish.jpg", 
+          alt: "Fish", 
+          isEdible: true,
+          explanation: "River otters love fish! They're excellent hunters and can catch fish with their sharp teeth and webbed feet. Fish make up a large part of their diet in rivers and lakes."
+        },
+        { 
+          src: "/images/rock.jpg", 
+          alt: "Rock", 
+          isEdible: false,
+          explanation: "Rocks are not food! River otters are carnivores and only eat meat. They might use rocks to crack open shellfish, but they don't eat the rocks themselves."
+        },
+        { 
+          src: "/images/frog.jpg", 
+          alt: "Frog", 
+          isEdible: true,
+          explanation: "River otters will eat frogs and other amphibians! They're opportunistic hunters and will catch frogs in shallow water or along the shoreline."
+        },
+        { 
+          src: "/images/apple.jpg", 
+          alt: "Apple", 
+          isEdible: false,
+          explanation: "River otters are carnivores and don't eat fruits or plants! They only eat meat from fish, frogs, crayfish, and other aquatic animals."
+        }
+      ]
     },
     next: "/stop/grizzly",
     funFact: "River otters can hold their breath for up to 8 minutes while diving underwater!"
@@ -80,9 +129,31 @@ export const animalData: Record<string, AnimalData> = {
     description: "Powerful grizzly bears are omnivores that play a crucial role in their ecosystem.",
     habitat: "Mountain forests and alpine meadows",
     game: {
-      type: "seasonal-match",
-      instructions: "Choose what the grizzly does in each season! Learn about their annual cycle and behaviors.",
-      difficulty: "Hard"
+      type: "season-match",
+      instructions: "Match the bear's behavior to each season!",
+      difficulty: "Hard",
+      behaviors: [
+        { 
+          label: "Wakes from hibernation", 
+          correctSeason: "spring",
+          explanation: "In spring, grizzly bears emerge from their winter dens after months of hibernation. They're hungry and immediately start looking for food to replenish their energy after the long winter sleep."
+        },
+        { 
+          label: "Eats nonstop to gain weight", 
+          correctSeason: "fall",
+          explanation: "During fall, grizzlies enter a phase called hyperphagia where they eat almost constantly to build up fat reserves. They need to gain hundreds of pounds to survive the winter hibernation."
+        },
+        { 
+          label: "Sleeps in a den", 
+          correctSeason: "winter",
+          explanation: "Grizzly bears hibernate during winter to conserve energy when food is scarce. They find or dig dens in the mountains and can sleep for 5-7 months without eating, drinking, or going to the bathroom."
+        },
+        { 
+          label: "Fishes for salmon", 
+          correctSeason: "summer",
+          explanation: "Summer is peak fishing season for grizzlies! They gather at rivers and streams to catch salmon during the annual salmon runs. This high-protein food helps them build strength for the coming winter."
+        }
+      ]
     },
     next: "/complete",
     funFact: "Grizzly bears can run up to 35 miles per hour, faster than most humans!"

@@ -1,6 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { animalData } from "../data/animalData.ts";
 import CaribouPhotoMatchGame from "../components/CaribouPhotoMatchGame.tsx";
+import TrueFalseGame from "../components/TrueFalseGame.tsx";
+import FoodSortGame from "../components/FoodSortGame.tsx";
+import SeasonMatchGame from "../components/SeasonMatchGame.tsx";
 
 export default function AnimalStop() {
   const { animal } = useParams();
@@ -28,6 +31,53 @@ export default function AnimalStop() {
     navigate(data.next);
   };
 
+  const renderGame = () => {
+    switch (data.game.type) {
+      case "photo-match":
+        return (
+          <CaribouPhotoMatchGame
+            question={data.game.instructions}
+            images={data.game.images!}
+            onComplete={handleComplete}
+          />
+        );
+      case "true-false":
+        return (
+          <TrueFalseGame
+            questions={data.game.questions!}
+            onComplete={handleComplete}
+          />
+        );
+      case "food-sort":
+        return (
+          <FoodSortGame
+            question={data.game.instructions}
+            options={data.game.options!}
+            onComplete={handleComplete}
+          />
+        );
+      case "season-match":
+        return (
+          <SeasonMatchGame
+            question={data.game.instructions}
+            behaviors={data.game.behaviors!}
+            onComplete={handleComplete}
+          />
+        );
+      default:
+        return (
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-dashed border-green-300 rounded-lg p-8 mb-8 text-center">
+            <div className="text-6xl mb-4">🎮</div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Game Component</h3>
+            <p className="text-gray-500">Interactive game will be implemented here</p>
+            <div className="mt-4 text-sm text-gray-400">
+              Game Type: {data.game.type}
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-4xl mx-4 w-full">
@@ -45,24 +95,9 @@ export default function AnimalStop() {
           </div>
         </div>
         
-        {data.game.type === "photo-match" ? (
-          <CaribouPhotoMatchGame
-            question={data.game.instructions}
-            images={data.game.images!}
-            onComplete={handleComplete}
-          />
-        ) : (
-          <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-dashed border-green-300 rounded-lg p-8 mb-8 text-center">
-            <div className="text-6xl mb-4">🎮</div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">Game Component</h3>
-            <p className="text-gray-500">Interactive game will be implemented here</p>
-            <div className="mt-4 text-sm text-gray-400">
-              Game Type: {data.game.type}
-            </div>
-          </div>
-        )}
+        {renderGame()}
 
-        {data.game.type !== "photo-match" && (
+        {data.game.type !== "photo-match" && data.game.type !== "true-false" && data.game.type !== "food-sort" && data.game.type !== "season-match" && (
           <div className="flex justify-center">
             <button
               className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors duration-200"

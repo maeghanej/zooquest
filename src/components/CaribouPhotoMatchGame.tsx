@@ -9,10 +9,15 @@ interface CaribouPhotoMatchGameProps {
 export default function CaribouPhotoMatchGame({ question, images, onComplete }: CaribouPhotoMatchGameProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [hasCorrectAnswer, setHasCorrectAnswer] = useState(false);
 
   const handleSelect = (index: number) => {
     setSelected(index);
     setShowResult(true);
+    
+    if (images[index].isCorrect) {
+      setHasCorrectAnswer(true);
+    }
   };
 
   const handleContinue = () => {
@@ -47,9 +52,8 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
                   ? "border-green-500 bg-green-50"
                   : "border-red-500 bg-red-50"
                 : "border-gray-300 hover:border-blue-400"
-            } ${showResult ? "cursor-default" : "cursor-pointer"}`}
+            } cursor-pointer`}
             onClick={() => handleSelect(idx)}
-            disabled={showResult}
           >
             <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded flex items-center justify-center mb-2">
               <span className="text-4xl">{getAntlerEmoji(img.alt)}</span>
@@ -77,30 +81,21 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
           
           <div className="bg-blue-50 p-4 rounded-lg max-w-md mx-auto mb-6">
             <h4 className="font-semibold text-blue-800 mb-2">
-              {images[selected].isCorrect ? "Why Caribou Antlers?" : "What You Selected:"}
+              {images[selected].alt}
             </h4>
-            <p className="text-sm text-blue-700 mb-3">
+            <p className="text-sm text-blue-700">
               {images[selected].explanation}
             </p>
-            
-            {!images[selected].isCorrect && (
-              <div className="border-t border-blue-200 pt-3">
-                <h4 className="font-semibold text-green-800 mb-2">Caribou Antlers Are Special Because:</h4>
-                <p className="text-sm text-green-700">
-                  Caribou have the largest antlers relative to body size of any deer species. 
-                  Both males and females grow antlers, which helps them dig through snow for food 
-                  and defend themselves in the harsh Arctic environment.
-                </p>
-              </div>
-            )}
           </div>
 
-          <button
-            onClick={handleContinue}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
-          >
-            Continue to Next Animal
-          </button>
+          {hasCorrectAnswer && (
+            <button
+              onClick={handleContinue}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            >
+              Continue to Next Animal
+            </button>
+          )}
         </div>
       )}
     </div>
