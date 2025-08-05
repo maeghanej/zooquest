@@ -1,21 +1,23 @@
 import { useState } from "react";
+import { useScoreStore } from "../store/scoreStore.ts";
 
-interface TrueFalseQuestion {
+interface PolarBearTrueFalseQuestion {
   question: string;
   correctAnswer: boolean;
   explanation: string;
 }
 
-interface TrueFalseGameProps {
-  questions: TrueFalseQuestion[];
+interface PolarBearTrueFalseGameProps {
+  questions: PolarBearTrueFalseQuestion[];
   onComplete: () => void;
 }
 
-export default function TrueFalseGame({ questions, onComplete }: TrueFalseGameProps) {
+export default function PolarBearTrueFalseGame({ questions, onComplete }: PolarBearTrueFalseGameProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<boolean | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [answers, setAnswers] = useState<boolean[]>([]);
+  const { recordScore } = useScoreStore();
 
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
@@ -28,6 +30,11 @@ export default function TrueFalseGame({ questions, onComplete }: TrueFalseGamePr
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
+    
+    // Record score if correct
+    if (answer === currentQuestion.correctAnswer) {
+      recordScore(1, 1);
+    }
   };
 
   const handleNextQuestion = () => {

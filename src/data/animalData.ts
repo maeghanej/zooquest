@@ -29,25 +29,25 @@ export const animalData: Record<string, AnimalData> = {
       difficulty: "Easy",
       images: [
         { 
-          src: "/images/antlers_caribou.jpg", 
+          src: "/images/caribou/antlers-caribou.jpg", 
           alt: "Caribou Antlers", 
           isCorrect: true,
           explanation: "Caribou antlers are unique because both males and females grow them! They're the largest relative to body size of any deer species and help caribou dig through snow for food."
         },
         { 
-          src: "/images/antlers_moose.jpg", 
+          src: "/images/caribou/antlers-moose.jpg", 
           alt: "Moose Antlers", 
           isCorrect: false,
           explanation: "Moose antlers are much larger and broader than caribou antlers. Only male moose grow antlers, and they have a distinctive palm-like shape with many points."
         },
         { 
-          src: "/images/antlers_deer.jpg", 
+          src: "/images/caribou/antlers-deer.jpg", 
           alt: "Deer Antlers", 
           isCorrect: false,
           explanation: "Deer antlers are typically smaller and more branched than caribou antlers. Only male deer grow antlers, and they're usually more delicate and pointed."
         },
         { 
-          src: "/images/antlers_elk.jpg", 
+          src: "/images/caribou/antlers-elk.jpg", 
           alt: "Elk Antlers", 
           isCorrect: false,
           explanation: "Elk antlers are very large and have a distinctive branching pattern. Only male elk grow antlers, and they can reach impressive sizes with many points."
@@ -96,25 +96,25 @@ export const animalData: Record<string, AnimalData> = {
       difficulty: "Easy",
       options: [
         { 
-          src: "/images/fish.jpg", 
+          src: "/images/otter/fish.jpg", 
           alt: "Fish", 
           isEdible: true,
           explanation: "River otters love fish! They're excellent hunters and can catch fish with their sharp teeth and webbed feet. Fish make up a large part of their diet in rivers and lakes."
         },
         { 
-          src: "/images/rock.jpg", 
+          src: "/images/otter/rock.jpg", 
           alt: "Rock", 
           isEdible: false,
           explanation: "Rocks are not food! River otters are carnivores and only eat meat. They might use rocks to crack open shellfish, but they don't eat the rocks themselves."
         },
         { 
-          src: "/images/frog.jpg", 
+          src: "/images/otter/frog.jpg", 
           alt: "Frog", 
           isEdible: true,
           explanation: "River otters will eat frogs and other amphibians! They're opportunistic hunters and will catch frogs in shallow water or along the shoreline."
         },
         { 
-          src: "/images/apple.jpg", 
+          src: "/images/otter/apple.jpg", 
           alt: "Apple", 
           isEdible: false,
           explanation: "River otters are carnivores and don't eat fruits or plants! They only eat meat from fish, frogs, crayfish, and other aquatic animals."

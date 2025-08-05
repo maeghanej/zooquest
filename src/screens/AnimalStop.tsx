@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { animalData } from "../data/animalData.ts";
 import CaribouPhotoMatchGame from "../components/CaribouPhotoMatchGame.tsx";
-import TrueFalseGame from "../components/TrueFalseGame.tsx";
-import FoodSortGame from "../components/FoodSortGame.tsx";
-import SeasonMatchGame from "../components/SeasonMatchGame.tsx";
+import PolarBearTrueFalseGame from "../components/PolarBearTrueFalseGame.tsx";
+import OtterFoodSortGame from "../components/OtterFoodSortGame.tsx";
+import GrizzlySeasonMatchGame from "../components/GrizzlySeasonMatchGame.tsx";
 
 export default function AnimalStop() {
   const { animal } = useParams();
@@ -43,14 +43,14 @@ export default function AnimalStop() {
         );
       case "true-false":
         return (
-          <TrueFalseGame
+          <PolarBearTrueFalseGame
             questions={data.game.questions!}
             onComplete={handleComplete}
           />
         );
       case "food-sort":
         return (
-          <FoodSortGame
+          <OtterFoodSortGame
             question={data.game.instructions}
             options={data.game.options!}
             onComplete={handleComplete}
@@ -58,7 +58,7 @@ export default function AnimalStop() {
         );
       case "season-match":
         return (
-          <SeasonMatchGame
+          <GrizzlySeasonMatchGame
             question={data.game.instructions}
             behaviors={data.game.behaviors!}
             onComplete={handleComplete}

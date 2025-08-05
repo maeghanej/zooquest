@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useScoreStore } from "../store/scoreStore.ts";
 
 interface CaribouPhotoMatchGameProps {
   question: string;
@@ -10,26 +11,38 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [hasCorrectAnswer, setHasCorrectAnswer] = useState(false);
+  const [attempts, setAttempts] = useState<number>(0);
+  const [scoreRecorded, setScoreRecorded] = useState<boolean>(false);
+  const { recordScore } = useScoreStore();
 
   const handleSelect = (index: number) => {
     setSelected(index);
     setShowResult(true);
+    setAttempts(attempts + 1);
     
-    if (images[index].isCorrect) {
+    if (images[index].isCorrect && !scoreRecorded) {
       setHasCorrectAnswer(true);
+      setScoreRecorded(true);
+      
+      // Calculate score based on number of attempts
+      let score = 0;
+      if (attempts === 0) {
+        score = 3; // First try
+      } else if (attempts === 1) {
+        score = 2; // Second try
+      } else if (attempts === 2) {
+        score = 1; // Third try
+      } else {
+        score = 0; // Fourth or more tries
+      }
+      
+      // Record score: calculated score, max 3 points for this game
+      recordScore(score, 3);
     }
   };
 
   const handleContinue = () => {
     onComplete();
-  };
-
-  const getAntlerEmoji = (alt: string) => {
-    if (alt.includes("Caribou")) return "🦌";
-    if (alt.includes("Moose")) return "🦌";
-    if (alt.includes("Deer")) return "🦌";
-    if (alt.includes("Elk")) return "🦌";
-    return "🦌";
   };
 
   return (
@@ -55,10 +68,19 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
             } cursor-pointer`}
             onClick={() => handleSelect(idx)}
           >
-            <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded flex items-center justify-center mb-2">
-              <span className="text-4xl">{getAntlerEmoji(img.alt)}</span>
+            <div className="aspect-square bg-gray-100 rounded flex items-center justify-center mb-2 overflow-hidden">
+              <img 
+                src={img.src} 
+                alt={img.alt} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to emoji if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.innerHTML = '🦌';
+                }}
+              />
             </div>
-            <p className="text-sm font-medium text-gray-700 text-center">{img.alt}</p>
           </button>
         ))}
       </div>
@@ -74,8 +96,8 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
               {images[selected].isCorrect ? "✅" : "❌"}
             </span>
             {images[selected].isCorrect 
-              ? "Correct! These are caribou antlers!" 
-              : "Not quite right!"
+              ? `Correct! These are caribou antlers! (${attempts === 1 ? '3 points' : attempts === 2 ? '2 points' : attempts === 3 ? '1 point' : '0 points'})`
+              : "Not quite right! Try again!"
             }
           </div>
           
@@ -88,12 +110,19 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
             </p>
           </div>
 
-          {hasCorrectAnswer && (
+          {hasCorrectAnswer ? (
             <button
               onClick={handleContinue}
               className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
             >
               Continue to Next Animal
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowResult(false)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            >
+              Try Again
             </button>
           )}
         </div>

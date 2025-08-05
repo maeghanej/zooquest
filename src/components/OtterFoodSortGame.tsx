@@ -1,22 +1,24 @@
 import { useState } from "react";
+import { useScoreStore } from "../store/scoreStore.ts";
 
-interface FoodOption {
+interface OtterFoodOption {
   src: string;
   alt: string;
   isEdible: boolean;
   explanation: string;
 }
 
-interface FoodSortGameProps {
+interface OtterFoodSortGameProps {
   question: string;
-  options: FoodOption[];
+  options: OtterFoodOption[];
   onComplete: () => void;
 }
 
-export default function FoodSortGame({ question, options, onComplete }: FoodSortGameProps) {
+export default function OtterFoodSortGame({ question, options, onComplete }: OtterFoodSortGameProps) {
   const [choices, setChoices] = useState<("yes" | "no" | null)[]>(Array(options.length).fill(null));
   const [showResult, setShowResult] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const { recordScore } = useScoreStore();
 
   const handleChoice = (index: number, answer: "yes" | "no") => {
     const newChoices = [...choices];
@@ -27,17 +29,15 @@ export default function FoodSortGame({ question, options, onComplete }: FoodSort
   };
 
   const handleContinue = () => {
+    // Calculate final score
+    const correctAnswers = choices.filter((choice, index) => 
+      choice === (options[index].isEdible ? "yes" : "no")
+    ).length;
+    
+    // Record score: 1 point per correct answer, max points = number of options
+    recordScore(correctAnswers, options.length);
+    
     onComplete();
-  };
-
-  const getFoodEmoji = (alt: string) => {
-    if (alt.includes("Fish")) return "🐟";
-    if (alt.includes("Frog")) return "🐸";
-    if (alt.includes("Rock")) return "🪨";
-    if (alt.includes("Apple")) return "🍎";
-    if (alt.includes("Crab")) return "🦀";
-    if (alt.includes("Mussel")) return "🦪";
-    return "🍽️";
   };
 
   const allAnswered = choices.every((c) => c !== null);
@@ -67,8 +67,22 @@ export default function FoodSortGame({ question, options, onComplete }: FoodSort
                 : "border-gray-300 hover:border-blue-400"
             }`}
           >
-            <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded flex items-center justify-center mb-3">
-              <span className="text-4xl">{getFoodEmoji(item.alt)}</span>
+            <div className="aspect-square bg-gray-100 rounded flex items-center justify-center mb-3 overflow-hidden">
+              <img 
+                src={item.src} 
+                alt={item.alt} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to specific emoji if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallbackEmoji = item.alt.toLowerCase().includes('fish') ? '🐟' :
+                                       item.alt.toLowerCase().includes('rock') ? '🪨' :
+                                       item.alt.toLowerCase().includes('frog') ? '🐸' :
+                                       item.alt.toLowerCase().includes('apple') ? '🍎' : '🍽️';
+                  target.parentElement!.innerHTML = fallbackEmoji;
+                }}
+              />
             </div>
             
             {choices[idx] === null ? (

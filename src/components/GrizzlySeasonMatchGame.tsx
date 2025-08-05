@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { useScoreStore } from "../store/scoreStore.ts";
 
-interface BehaviorOption {
+interface GrizzlyBehaviorOption {
   label: string;
   correctSeason: string; // "spring", "summer", "fall", "winter"
   explanation: string;
 }
 
-interface SeasonMatchGameProps {
+interface GrizzlySeasonMatchGameProps {
   question: string;
-  behaviors: BehaviorOption[];
+  behaviors: GrizzlyBehaviorOption[];
   onComplete: () => void;
 }
 
 const seasons = ["spring", "summer", "fall", "winter"];
 
-export default function SeasonMatchGame({ question, behaviors, onComplete }: SeasonMatchGameProps) {
+export default function GrizzlySeasonMatchGame({ question, behaviors, onComplete }: GrizzlySeasonMatchGameProps) {
   const [selectedBehavior, setSelectedBehavior] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({
     spring: null,
@@ -23,6 +24,7 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
     winter: null,
   });
   const [showResults, setShowResults] = useState(false);
+  const { recordScore } = useScoreStore();
 
   const handleAssign = (season: string) => {
     if (selectedBehavior === null) return;
@@ -33,6 +35,15 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
   };
 
   const handleContinue = () => {
+    // Calculate final score
+    const correctAssignments = Object.entries(assignments).filter(([season, assigned]) => {
+      const correctLabel = behaviors.find((b) => b.correctSeason === season)?.label;
+      return assigned === correctLabel;
+    }).length;
+    
+    // Record score: 1 point per correct assignment, max points = number of seasons
+    recordScore(correctAssignments, seasons.length);
+    
     onComplete();
   };
 
@@ -43,13 +54,9 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
   }).length;
 
   const getSeasonEmoji = (season: string) => {
-    switch (season) {
-      case "spring": return "🌸";
-      case "summer": return "☀️";
-      case "fall": return "🍂";
-      case "winter": return "❄️";
-      default: return "🌿";
-    }
+    return season === 'spring' ? '🌸' : 
+           season === 'summer' ? '☀️' : 
+           season === 'fall' ? '🍂' : '❄️';
   };
 
   return (
@@ -101,7 +108,11 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
                 }`}
                 onClick={() => handleAssign(season)}
               >
-                <div className="text-3xl mb-2">{getSeasonEmoji(season)}</div>
+                <div className="aspect-square bg-gray-100 rounded flex items-center justify-center mb-2 overflow-hidden">
+                  <div className="text-6xl">
+                    {getSeasonEmoji(season)}
+                  </div>
+                </div>
                 <div className="font-semibold text-gray-800 mb-2 capitalize">{season}</div>
                 
                 {!showResults ? (
