@@ -2,6 +2,7 @@ export interface AnimalData {
   title: string;
   description: string;
   habitat: string;
+  endangermentStatus: string;
   game: {
     type: string;
     instructions: string;
@@ -23,6 +24,7 @@ export const animalData: Record<string, AnimalData> = {
     title: "Caribou",
     description: "Majestic caribou roam the northern tundra in large herds, migrating across vast distances.",
     habitat: "Arctic tundra and boreal forests",
+    endangermentStatus: "Least Concern",
     game: {
       type: "photo-match",
       instructions: "Which antlers belong to the caribou?",
@@ -61,6 +63,7 @@ export const animalData: Record<string, AnimalData> = {
     title: "Polar Bear",
     description: "The largest land carnivore, polar bears are perfectly adapted to life on sea ice.",
     habitat: "Arctic sea ice and coastal areas",
+    endangermentStatus: "Vulnerable",
     game: {
       type: "true-false",
       instructions: "Is this action cool or not cool for polar bears?",
@@ -90,6 +93,7 @@ export const animalData: Record<string, AnimalData> = {
     title: "River Otter",
     description: "Playful river otters are excellent swimmers and can be found in rivers, lakes, and coastal areas.",
     habitat: "Rivers, lakes, and coastal waters",
+    endangermentStatus: "Least Concern",
     game: {
       type: "food-sort",
       instructions: "Which of these things would a river otter eat?",
@@ -128,6 +132,7 @@ export const animalData: Record<string, AnimalData> = {
     title: "Grizzly Bear",
     description: "Powerful grizzly bears are omnivores that play a crucial role in their ecosystem.",
     habitat: "Mountain forests and alpine meadows",
+    endangermentStatus: "Least Concern",
     game: {
       type: "season-match",
       instructions: "Match the bear's behavior to each season!",

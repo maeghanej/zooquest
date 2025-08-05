@@ -6,13 +6,13 @@ export default function Intro() {
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-4 text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">How It Works</h2>
         <div className="space-y-4 text-gray-600 mb-8">
-          <p className="text-lg">Visit animal habitats, play games, and discover amazing facts!</p>
+          <p className="text-lg">As you explore Wild Canada, use the knowledge you gain to successfully complete each challenge and earn your Wild Canada badge.</p>
           <div className="bg-blue-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-blue-800 mb-2">What you'll do:</h3>
+            <h3 className="font-semibold text-blue-800 mb-2">What you'll do::</h3>
             <ul className="text-sm text-blue-700 space-y-1">
               <li>• Match antlers with caribou</li>
               <li>• Learn about polar bear behavior</li>
-              <li>• Observe river otters at play</li>
+              <li>• Build a river otter diet</li>
               <li>• Discover grizzly bear seasons</li>
             </ul>
           </div>

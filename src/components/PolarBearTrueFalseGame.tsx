@@ -30,15 +30,18 @@ export default function PolarBearTrueFalseGame({ questions, onComplete }: PolarB
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = answer;
     setAnswers(newAnswers);
-    
-    // Record score if correct
-    if (answer === currentQuestion.correctAnswer) {
-      recordScore(1, 1);
-    }
   };
 
   const handleNextQuestion = () => {
     if (isLastQuestion) {
+      // Calculate final score
+      const correctCount = answers.filter((answer, index) => 
+        answer === questions[index].correctAnswer
+      ).length;
+      
+      // Record score: 1 point per correct answer, max points = number of questions
+      recordScore(correctCount, questions.length);
+      
       onComplete();
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);

@@ -90,6 +90,9 @@ export default function AnimalStop() {
               <strong>Habitat:</strong> {data.habitat}
             </p>
             <p className="text-sm text-blue-700 mt-1">
+              <strong>Endangerment Status:</strong> {data.endangermentStatus}
+            </p>
+            <p className="text-sm text-blue-700 mt-1">
               <strong>Fun Fact:</strong> {data.funFact}
             </p>
           </div>
