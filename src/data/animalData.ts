@@ -9,8 +9,10 @@ export interface AnimalData {
     difficulty: string;
     images?: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
     questions?: { question: string; correctAnswer: boolean; explanation: string }[];
-    options?: { src: string; alt: string; isEdible: boolean; explanation: string }[];
+    options?: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
+    sortCategories?: { positive: string; negative: string; title: string; description: string };
     behaviors?: { label: string; correctSeason: string; explanation: string }[];
+    items?: { label: string; correctGroup: "wolf" | "dog"; explanation: string }[];
     question?: string;
     correctAnswer?: boolean;
     explanation?: string;
@@ -20,6 +22,46 @@ export interface AnimalData {
 }
 
 export const animalData: Record<string, AnimalData> = {
+  bighornsheep: {
+    title: "Bighorn Sheep",
+    description: "Magnificent bighorn sheep are skilled climbers that navigate steep mountain terrain with incredible agility.",
+    habitat: "Rocky mountain slopes and alpine meadows",
+    endangermentStatus: "Least Concern",
+    game: {
+      type: "true-false",
+      instructions: "Tap true or false for each of these bighorn sheep facts!",
+      difficulty: "Easy",
+      questions: [
+        {
+          question: "Bighorn sheep can climb nearly vertical rock faces.",
+          correctAnswer: true,
+          explanation: "Bighorn sheep are incredible climbers! Their specialized hooves have a hard outer edge and soft inner pad that acts like a suction cup, allowing them to navigate nearly vertical rock faces with amazing skill."
+        },
+        {
+          question: "Only male bighorn sheep have horns.",
+          correctAnswer: false,
+          explanation: "Both male and female bighorn sheep have horns! However, males (rams) have much larger, curved horns that can weigh up to 30 pounds, while females (ewes) have smaller, straighter horns."
+        },
+        {
+          question: "Bighorn sheep live mostly in deserts and rainforests.",
+          correctAnswer: false,
+          explanation: "Bighorn sheep live in rocky mountain terrain, not deserts or rainforests! They prefer steep, rugged landscapes where they can use their climbing skills to escape predators and find food."
+        },
+        {
+          question: "They use their horns to fight for dominance.",
+          correctAnswer: true,
+          explanation: "Male bighorn sheep engage in dramatic head-butting battles during mating season! They charge at each other at speeds up to 20 mph, and the sound of their horns clashing can be heard over a mile away."
+        },
+        {
+          question: "Bighorn sheep often fall from cliffs due to poor balance.",
+          correctAnswer: false,
+          explanation: "Bighorn sheep rarely fall from cliffs! They have exceptional balance and are perfectly adapted for mountain life. Their sure-footedness and climbing ability make them one of the most skilled mountaineers in the animal kingdom."
+        }
+      ]
+    },
+    next: "/stop/caribou",
+    funFact: "Bighorn sheep can leap 20 feet between rocky ledges and run up steep slopes at 15 mph!"
+  },
   caribou: {
     title: "Caribou",
     description: "Majestic caribou roam the northern tundra in large herds, migrating across vast distances.",
@@ -95,38 +137,86 @@ export const animalData: Record<string, AnimalData> = {
     habitat: "Rivers, lakes, and coastal waters",
     endangermentStatus: "Least Concern",
     game: {
-      type: "food-sort",
+      type: "photo-sort",
       instructions: "Which of these things would a river otter eat?",
       difficulty: "Easy",
       options: [
         { 
           src: "/images/otter/fish.jpg", 
           alt: "Fish", 
-          isEdible: true,
+          isCorrect: true,
           explanation: "River otters love fish! They're excellent hunters and can catch fish with their sharp teeth and webbed feet. Fish make up a large part of their diet in rivers and lakes."
         },
         { 
           src: "/images/otter/rock.jpg", 
           alt: "Rock", 
-          isEdible: false,
+          isCorrect: false,
           explanation: "Rocks are not food! River otters are carnivores and only eat meat. They might use rocks to crack open shellfish, but they don't eat the rocks themselves."
         },
         { 
           src: "/images/otter/frog.jpg", 
           alt: "Frog", 
-          isEdible: true,
+          isCorrect: true,
           explanation: "River otters will eat frogs and other amphibians! They're opportunistic hunters and will catch frogs in shallow water or along the shoreline."
         },
         { 
           src: "/images/otter/apple.jpg", 
           alt: "Apple", 
-          isEdible: false,
+          isCorrect: false,
           explanation: "River otters are carnivores and don't eat fruits or plants! They only eat meat from fish, frogs, crayfish, and other aquatic animals."
         }
+      ],
+      sortCategories: {
+        positive: "Eat",
+        negative: "Don't Eat", 
+        title: "River Otter Food Challenge",
+        description: "Learn about what river otters eat in their natural habitat!"
+      }
+    },
+    next: "/stop/wolf",
+    funFact: "River otters can hold their breath for up to 8 minutes while diving underwater!"
+  },
+  wolf: {
+    title: "Grey Wolf",
+    description: "Intelligent and social grey wolves are apex predators that live in complex pack structures.",
+    habitat: "Forests, tundra, and mountainous regions",
+    endangermentStatus: "Least Concern",
+    game: {
+      type: "text-sort",
+      instructions: "Sort these traits into 'wolf' or 'dog' categories!",
+      difficulty: "Medium",
+      items: [
+        { 
+          label: "Lives in a pack with complex social roles", 
+          correctGroup: "wolf",
+          explanation: "Wolves live in family groups called packs with strict hierarchies. Each wolf has a specific role, from the alpha leaders to omega subordinates, which helps them hunt and survive together."
+        },
+        { 
+          label: "Barks frequently to communicate", 
+          correctGroup: "dog",
+          explanation: "Dogs bark much more than wolves! Domestic dogs have developed frequent barking through thousands of years of breeding by humans. Wolves rarely bark and prefer howling, whining, and body language."
+        },
+    
+        { 
+          label: "Roams large territories in the wild", 
+          correctGroup: "wolf",
+          explanation: "Wolf packs maintain territories that can range from 50 to 1,000 square miles! They patrol these areas to find food and protect their family from rival packs."
+        },
+        { 
+          label: "Can be trained to fetch and do tricks", 
+          correctGroup: "dog",
+          explanation: "Dogs have been bred to be highly trainable and eager to please humans. While wolves are intelligent, they're independent and don't naturally seek to obey human commands like dogs do."
+        },
+        { 
+          label: "Plays an important role in balancing ecosystems", 
+          correctGroup: "wolf",
+          explanation: "Wolves are keystone species that help control deer and elk populations. This prevents overgrazing and allows forests and grasslands to thrive, benefiting many other animals."
+        },
+        
       ]
     },
     next: "/stop/grizzly",
-    funFact: "River otters can hold their breath for up to 8 minutes while diving underwater!"
+    funFact: "A wolf's howl can be heard up to 6 miles away and helps coordinate pack hunts!"
   },
   grizzly: {
     title: "Grizzly Bear",

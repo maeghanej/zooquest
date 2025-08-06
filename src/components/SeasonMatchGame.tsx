@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
 
-interface GrizzlyBehaviorOption {
+interface BehaviorOption {
   label: string;
   correctSeason: string; // "spring", "summer", "fall", "winter"
   explanation: string;
 }
 
-interface GrizzlySeasonMatchGameProps {
+interface SeasonMatchGameProps {
   question: string;
-  behaviors: GrizzlyBehaviorOption[];
+  behaviors: BehaviorOption[];
   onComplete: () => void;
 }
 
 const seasons = ["spring", "summer", "fall", "winter"];
 
-export default function GrizzlySeasonMatchGame({ question, behaviors, onComplete }: GrizzlySeasonMatchGameProps) {
+export default function SeasonMatchGame({ question, behaviors, onComplete }: SeasonMatchGameProps) {
   const [selectedBehavior, setSelectedBehavior] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({
     spring: null,

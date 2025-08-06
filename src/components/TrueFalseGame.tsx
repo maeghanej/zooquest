@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
 
-interface PolarBearTrueFalseQuestion {
+interface TrueFalseQuestion {
   question: string;
   correctAnswer: boolean;
   explanation: string;
 }
 
-interface PolarBearTrueFalseGameProps {
-  questions: PolarBearTrueFalseQuestion[];
+interface TrueFalseGameProps {
+  questions: TrueFalseQuestion[];
   onComplete: () => void;
 }
 
-export default function PolarBearTrueFalseGame({ questions, onComplete }: PolarBearTrueFalseGameProps) {
+export default function TrueFalseGame({ questions, onComplete }: TrueFalseGameProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<boolean | null>(null);
   const [showResult, setShowResult] = useState(false);

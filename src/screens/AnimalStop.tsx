@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { animalData } from "../data/animalData.ts";
-import CaribouPhotoMatchGame from "../components/CaribouPhotoMatchGame.tsx";
-import PolarBearTrueFalseGame from "../components/PolarBearTrueFalseGame.tsx";
-import OtterFoodSortGame from "../components/OtterFoodSortGame.tsx";
-import GrizzlySeasonMatchGame from "../components/GrizzlySeasonMatchGame.tsx";
+import PhotoMatchGame from "../components/PhotoMatchGame.tsx";
+import TrueFalseGame from "../components/TrueFalseGame.tsx";
+import PhotoSortGame from "../components/PhotoSortGame.tsx";
+import SeasonMatchGame from "../components/SeasonMatchGame.tsx";
+import TextSortGame from "../components/TextSortGame.tsx";
 
 export default function AnimalStop() {
   const { animal } = useParams();
@@ -35,7 +36,7 @@ export default function AnimalStop() {
     switch (data.game.type) {
       case "photo-match":
         return (
-          <CaribouPhotoMatchGame
+          <PhotoMatchGame
             question={data.game.instructions}
             images={data.game.images!}
             onComplete={handleComplete}
@@ -43,24 +44,33 @@ export default function AnimalStop() {
         );
       case "true-false":
         return (
-          <PolarBearTrueFalseGame
+          <TrueFalseGame
             questions={data.game.questions!}
             onComplete={handleComplete}
           />
         );
-      case "food-sort":
+      case "photo-sort":
         return (
-          <OtterFoodSortGame
+          <PhotoSortGame
             question={data.game.instructions}
             options={data.game.options!}
+            sortCategories={data.game.sortCategories!}
             onComplete={handleComplete}
           />
         );
       case "season-match":
         return (
-          <GrizzlySeasonMatchGame
+          <SeasonMatchGame
             question={data.game.instructions}
             behaviors={data.game.behaviors!}
+            onComplete={handleComplete}
+          />
+        );
+      case "text-sort":
+        return (
+          <TextSortGame
+            question={data.game.instructions}
+            items={data.game.items!}
             onComplete={handleComplete}
           />
         );

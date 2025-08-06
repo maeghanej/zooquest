@@ -11,10 +11,12 @@ An interactive educational game that takes players on a journey through Canada's
 
 ## Animals Featured
 
-1. **Caribou** - Antler matching game
-2. **Polar Bear** - True/false behavior quiz
-3. **River Otter** - Observation challenge
-4. **Grizzly Bear** - Seasonal activity matching
+1. **Bighorn Sheep** - True/false knowledge quiz
+2. **Caribou** - Antler matching game
+3. **Polar Bear** - True/false behavior quiz
+4. **River Otter** - Photo sorting challenge
+5. **Grey Wolf** - Wolf vs dog trait sorting
+6. **Grizzly Bear** - Seasonal activity matching
 
 ## Getting Started
 

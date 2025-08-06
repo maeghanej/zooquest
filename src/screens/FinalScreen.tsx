@@ -37,9 +37,11 @@ export default function FinalScreen() {
         <div className="bg-yellow-50 p-4 rounded-lg mb-8">
           <h3 className="font-semibold text-yellow-800 mb-2">What you discovered:</h3>
           <ul className="text-sm text-yellow-700 space-y-1">
+            <li>• Bighorn sheep mountain skills</li>
             <li>• Caribou antler matching</li>
             <li>• Polar bear behavior</li>
             <li>• River otter diet</li>
+            <li>• Wolf behaviour</li>
             <li>• Grizzly bear seasonal activities</li>
           </ul>
         </div>

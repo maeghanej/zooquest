@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
 
-interface CaribouPhotoMatchGameProps {
+interface PhotoMatchGameProps {
   question: string;
   images: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
   onComplete: () => void;
 }
 
-export default function CaribouPhotoMatchGame({ question, images, onComplete }: CaribouPhotoMatchGameProps) {
+export default function PhotoMatchGame({ question, images, onComplete }: PhotoMatchGameProps) {
   const [clickedImages, setClickedImages] = useState<Set<number>>(new Set());
   const [hasCorrectAnswer, setHasCorrectAnswer] = useState(false);
   const [attempts, setAttempts] = useState<number>(0);
@@ -47,10 +47,10 @@ export default function CaribouPhotoMatchGame({ question, images, onComplete }: 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">Caribou Antler Challenge</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">Photo Match Challenge</h3>
         <p className="text-gray-600 text-lg">{question}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Caribou have unique antlers that help them survive in the Arctic!
+          Choose the correct photo to learn more!
         </p>
       </div>
       

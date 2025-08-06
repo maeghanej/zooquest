@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
 
-interface OtterFoodOption {
+interface SortOption {
   src: string;
   alt: string;
-  isEdible: boolean;
+  isCorrect: boolean;
   explanation: string;
 }
 
-interface OtterFoodSortGameProps {
+interface PhotoSortGameProps {
   question: string;
-  options: OtterFoodOption[];
+  options: SortOption[];
+  sortCategories: {
+    positive: string;
+    negative: string;
+    title: string;
+    description: string;
+  };
   onComplete: () => void;
 }
 
-export default function OtterFoodSortGame({ question, options, onComplete }: OtterFoodSortGameProps) {
+export default function PhotoSortGame({ question, options, sortCategories, onComplete }: PhotoSortGameProps) {
   const [choices, setChoices] = useState<("yes" | "no" | null)[]>(Array(options.length).fill(null));
   const [showResult, setShowResult] = useState(false);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
@@ -31,7 +37,7 @@ export default function OtterFoodSortGame({ question, options, onComplete }: Ott
   const handleContinue = () => {
     // Calculate final score
     const correctAnswers = choices.filter((choice, index) => 
-      choice === (options[index].isEdible ? "yes" : "no")
+      choice === (options[index].isCorrect ? "yes" : "no")
     ).length;
     
     // Record score: 1 point per correct answer, max points = number of options
@@ -42,16 +48,16 @@ export default function OtterFoodSortGame({ question, options, onComplete }: Ott
 
   const allAnswered = choices.every((c) => c !== null);
   const correctAnswers = choices.filter((choice, index) => 
-    choice === (options[index].isEdible ? "yes" : "no")
+    choice === (options[index].isCorrect ? "yes" : "no")
   ).length;
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">River Otter Food Challenge</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">{sortCategories.title}</h3>
         <p className="text-gray-600 text-lg">{question}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Learn about what river otters eat in their natural habitat!
+          {sortCategories.description}
         </p>
       </div>
       
@@ -61,7 +67,7 @@ export default function OtterFoodSortGame({ question, options, onComplete }: Ott
             key={idx} 
             className={`border-2 p-4 rounded-lg text-center transition-all duration-200 ${
               showResult && idx === selectedItem
-                ? choices[idx] === (item.isEdible ? "yes" : "no")
+                ? choices[idx] === (item.isCorrect ? "yes" : "no")
                   ? "border-green-500 bg-green-50"
                   : "border-red-500 bg-red-50"
                 : "border-gray-300 hover:border-blue-400"
@@ -95,13 +101,13 @@ export default function OtterFoodSortGame({ question, options, onComplete }: Ott
                     className="px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 border-gray-300 hover:border-green-400 cursor-pointer"
                     onClick={() => handleChoice(idx, "yes")}
                   >
-                    ✅ Eat
+                    ✅ {sortCategories.positive}
                   </button>
                   <button
                     className="px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 border-gray-300 hover:border-red-400 cursor-pointer"
                     onClick={() => handleChoice(idx, "no")}
                   >
-                    ❌ Don't Eat
+                    ❌ {sortCategories.negative}
                   </button>
                 </div>
               </>
@@ -109,14 +115,14 @@ export default function OtterFoodSortGame({ question, options, onComplete }: Ott
               // Show fact and result
               <>
                 <div className={`inline-flex items-center px-3 py-1 rounded-lg font-semibold mb-3 text-sm ${
-                  choices[idx] === (item.isEdible ? "yes" : "no")
+                  choices[idx] === (item.isCorrect ? "yes" : "no")
                     ? "bg-green-100 text-green-800" 
                     : "bg-red-100 text-red-800"
                 }`}>
                   <span className="text-lg mr-1">
-                    {choices[idx] === (item.isEdible ? "yes" : "no") ? "✅" : "❌"}
+                    {choices[idx] === (item.isCorrect ? "yes" : "no") ? "✅" : "❌"}
                   </span>
-                  {choices[idx] === (item.isEdible ? "yes" : "no")
+                  {choices[idx] === (item.isCorrect ? "yes" : "no")
                     ? "Correct!" 
                     : "Not quite!"
                   }

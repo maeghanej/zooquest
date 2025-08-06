@@ -8,17 +8,19 @@ export default function Intro() {
         <div className="space-y-4 text-gray-600 mb-8">
           <p className="text-lg">As you explore Wild Canada, use the knowledge you gain to successfully complete each challenge and earn your Wild Canada badge.</p>
           <div className="bg-blue-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-blue-800 mb-2">What you'll do::</h3>
+            <h3 className="font-semibold text-blue-800 mb-2">What you'll do:</h3>
             <ul className="text-sm text-blue-700 space-y-1">
+              <li>• Test bighorn sheep knowledge</li>
               <li>• Match antlers with caribou</li>
               <li>• Learn about polar bear behavior</li>
               <li>• Build a river otter diet</li>
+              <li>• Sort wolf vs dog traits</li>
               <li>• Discover grizzly bear seasons</li>
             </ul>
           </div>
         </div>
         <Link 
-          to="/stop/caribou" 
+          to="/stop/bighornsheep" 
           className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors duration-200"
         >
           Let's Go!
