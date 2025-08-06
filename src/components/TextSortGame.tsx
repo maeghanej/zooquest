@@ -3,22 +3,37 @@ import { useScoreStore } from "../store/scoreStore.ts";
 
 interface SortItem {
   label: string;
-  correctGroup: "wolf" | "dog";
+  correctGroup: string;
   explanation: string;
 }
 
 interface TextSortGameProps {
   question: string;
   items: SortItem[];
+  gameContent: {
+    title: string;
+    description: string;
+    categories?: {
+      option1: { label: string; emoji: string };
+      option2: { label: string; emoji: string };
+    };
+  };
   onComplete: () => void;
 }
 
-export default function TextSortGame({ question, items, onComplete }: TextSortGameProps) {
-  const [assignments, setAssignments] = useState<("wolf" | "dog" | null)[]>(Array(items.length).fill(null));
+export default function TextSortGame({ question, items, gameContent, onComplete }: TextSortGameProps) {
+  const [assignments, setAssignments] = useState<(string | null)[]>(Array(items.length).fill(null));
   const [showResult, setShowResult] = useState(false);
   const { recordScore } = useScoreStore();
 
-  const handleAssign = (index: number, group: "wolf" | "dog") => {
+  // Fallback categories if not provided
+  const categories = gameContent.categories || {
+    option1: { label: "Option 1", emoji: "🔵" },
+    option2: { label: "Option 2", emoji: "🔴" }
+  };
+  const categoryKeys = Object.keys(categories);
+
+  const handleAssign = (index: number, group: string) => {
     const newAssignments = [...assignments];
     newAssignments[index] = group;
     setAssignments(newAssignments);
@@ -43,10 +58,10 @@ export default function TextSortGame({ question, items, onComplete }: TextSortGa
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">Wolf vs Dog Challenge</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
         <p className="text-gray-600 text-lg">{question}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Learn the differences between wild wolves and domestic dogs!
+          {gameContent.description}
         </p>
       </div>
 
@@ -68,23 +83,23 @@ export default function TextSortGame({ question, items, onComplete }: TextSortGa
               <div className="flex gap-2 justify-center">
                 <button
                   className={`px-4 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${
-                    assignments[idx] === "wolf" 
+                    assignments[idx] === categoryKeys[0]
                       ? "bg-purple-200 border-purple-400" 
                       : "border-gray-300 hover:border-purple-400"
                   }`}
-                  onClick={() => handleAssign(idx, "wolf")}
+                  onClick={() => handleAssign(idx, categoryKeys[0])}
                 >
-                  🐺 Wolf
+                  {categories.option1.emoji} {categories.option1.label}
                 </button>
                 <button
                   className={`px-4 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${
-                    assignments[idx] === "dog" 
+                    assignments[idx] === categoryKeys[1]
                       ? "bg-yellow-200 border-yellow-400" 
                       : "border-gray-300 hover:border-yellow-400"
                   }`}
-                  onClick={() => handleAssign(idx, "dog")}
+                  onClick={() => handleAssign(idx, categoryKeys[1])}
                 >
-                  🐶 Dog
+                  {categories.option2.emoji} {categories.option2.label}
                 </button>
               </div>
             ) : (
@@ -102,7 +117,7 @@ export default function TextSortGame({ question, items, onComplete }: TextSortGa
                     : "Not quite!"
                   }
                   <span className="ml-2 text-xs">
-                    (Answer: {item.correctGroup === "wolf" ? "🐺 Wolf" : "🐶 Dog"})
+                    (Answer: {item.correctGroup === categoryKeys[0] ? `${categories.option1.emoji} ${categories.option1.label}` : `${categories.option2.emoji} ${categories.option2.label}`})
                   </span>
                 </div>
                 

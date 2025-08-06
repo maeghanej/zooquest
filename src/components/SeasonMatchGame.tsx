@@ -10,12 +10,17 @@ interface BehaviorOption {
 interface SeasonMatchGameProps {
   question: string;
   behaviors: BehaviorOption[];
+  gameContent: {
+    title: string;
+    description: string;
+    summaryTitle?: string;
+  };
   onComplete: () => void;
 }
 
 const seasons = ["spring", "summer", "fall", "winter"];
 
-export default function SeasonMatchGame({ question, behaviors, onComplete }: SeasonMatchGameProps) {
+export default function SeasonMatchGame({ question, behaviors, gameContent, onComplete }: SeasonMatchGameProps) {
   const [selectedBehavior, setSelectedBehavior] = useState<number | null>(null);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({
     spring: null,
@@ -62,10 +67,10 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">Grizzly Bear Seasonal Challenge</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
         <p className="text-gray-600 text-lg">{question}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Learn about how grizzly bears adapt to each season!
+          {gameContent.description}
         </p>
       </div>
       
@@ -162,7 +167,7 @@ export default function SeasonMatchGame({ question, behaviors, onComplete }: Sea
           
           <div className="bg-blue-50 p-6 rounded-lg max-w-2xl mx-auto mb-6">
             <h4 className="font-semibold text-blue-800 mb-3 text-lg">
-              How Grizzly Bears Adapt to Seasonal Food Changes:
+              {gameContent.summaryTitle || "How This Animal Adapts:"}
             </h4>
             <div className="text-sm text-blue-700 space-y-3">
               <p>

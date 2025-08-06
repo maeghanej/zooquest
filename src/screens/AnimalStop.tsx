@@ -46,6 +46,7 @@ export default function AnimalStop() {
         return (
           <TrueFalseGame
             questions={data.game.questions!}
+            gameContent={data.game.gameContent!}
             onComplete={handleComplete}
           />
         );
@@ -63,6 +64,7 @@ export default function AnimalStop() {
           <SeasonMatchGame
             question={data.game.instructions}
             behaviors={data.game.behaviors!}
+            gameContent={data.game.gameContent!}
             onComplete={handleComplete}
           />
         );
@@ -71,6 +73,7 @@ export default function AnimalStop() {
           <TextSortGame
             question={data.game.instructions}
             items={data.game.items!}
+            gameContent={data.game.gameContent!}
             onComplete={handleComplete}
           />
         );

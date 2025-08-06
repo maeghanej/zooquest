@@ -9,10 +9,15 @@ interface TrueFalseQuestion {
 
 interface TrueFalseGameProps {
   questions: TrueFalseQuestion[];
+  gameContent: {
+    title: string;
+    description: string;
+    summaryTitle?: string;
+  };
   onComplete: () => void;
 }
 
-export default function TrueFalseGame({ questions, onComplete }: TrueFalseGameProps) {
+export default function TrueFalseGame({ questions, gameContent, onComplete }: TrueFalseGameProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<boolean | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -60,10 +65,10 @@ export default function TrueFalseGame({ questions, onComplete }: TrueFalseGamePr
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">Polar Bear Behavior Challenge</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
         <p className="text-gray-600 text-lg">{currentQuestion.question}</p>
         <p className="text-sm text-gray-500 mt-2">
-          Learn about behaviors that help or harm polar bears!
+          {gameContent.description}
         </p>
         <div className="mt-4">
           <div className="text-sm text-gray-600 mb-2">
@@ -124,7 +129,7 @@ export default function TrueFalseGame({ questions, onComplete }: TrueFalseGamePr
           
           <div className="bg-blue-50 p-4 rounded-lg max-w-md mx-auto mb-6">
             <h4 className="font-semibold text-blue-800 mb-2">
-              Why This Matters for Polar Bears:
+              {gameContent.summaryTitle || "Why This Matters:"}
             </h4>
             <p className="text-sm text-blue-700">
               {currentQuestion.explanation}

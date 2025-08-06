@@ -12,7 +12,16 @@ export interface AnimalData {
     options?: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
     sortCategories?: { positive: string; negative: string; title: string; description: string };
     behaviors?: { label: string; correctSeason: string; explanation: string }[];
-    items?: { label: string; correctGroup: "wolf" | "dog"; explanation: string }[];
+    items?: { label: string; correctGroup: string; explanation: string }[];
+    gameContent?: {
+      title: string;
+      description: string;
+      summaryTitle?: string;
+      categories?: {
+        option1: { label: string; emoji: string };
+        option2: { label: string; emoji: string };
+      };
+    };
     question?: string;
     correctAnswer?: boolean;
     explanation?: string;
@@ -57,7 +66,12 @@ export const animalData: Record<string, AnimalData> = {
           correctAnswer: false,
           explanation: "Bighorn sheep rarely fall from cliffs! They have exceptional balance and are perfectly adapted for mountain life. Their sure-footedness and climbing ability make them one of the most skilled mountaineers in the animal kingdom."
         }
-      ]
+      ],
+      gameContent: {
+        title: "Bighorn Sheep Knowledge Challenge",
+        description: "Test your knowledge about these amazing mountain climbers!",
+        summaryTitle: "Why This Matters for Bighorn Sheep:"
+      }
     },
     next: "/stop/caribou",
     funFact: "Bighorn sheep can leap 20 feet between rocky ledges and run up steep slopes at 15 mph!"
@@ -126,7 +140,12 @@ export const animalData: Record<string, AnimalData> = {
           correctAnswer: true,
           explanation: "Polar bears have black skin that helps absorb heat from the sun! Their white fur is actually transparent and hollow, which helps insulate them and camouflage them in the snow and ice."
         }
-      ]
+      ],
+      gameContent: {
+        title: "Polar Bear Behavior Challenge",
+        description: "Learn about behaviors that help or harm polar bears!",
+        summaryTitle: "Why This Matters for Polar Bears:"
+      }
     },
     next: "/stop/otter",
     funFact: "Polar bears have black skin under their white fur to absorb heat from the sun!"
@@ -213,7 +232,15 @@ export const animalData: Record<string, AnimalData> = {
           explanation: "Wolves are keystone species that help control deer and elk populations. This prevents overgrazing and allows forests and grasslands to thrive, benefiting many other animals."
         },
         
-      ]
+      ],
+      gameContent: {
+        title: "Wolf vs Dog Challenge",
+        description: "Learn the differences between wild wolves and domestic dogs!",
+        categories: {
+          option1: { label: "Wolf", emoji: "🐺" },
+          option2: { label: "Dog", emoji: "🐶" }
+        }
+      }
     },
     next: "/stop/grizzly",
     funFact: "A wolf's howl can be heard up to 6 miles away and helps coordinate pack hunts!"
@@ -248,7 +275,12 @@ export const animalData: Record<string, AnimalData> = {
           correctSeason: "summer",
           explanation: "Summer is peak fishing season for grizzlies! They gather at rivers and streams to catch salmon during the annual salmon runs. This high-protein food helps them build strength for the coming winter."
         }
-      ]
+      ],
+      gameContent: {
+        title: "Grizzly Bear Seasonal Challenge",
+        description: "Learn about how grizzly bears adapt to each season!",
+        summaryTitle: "How Grizzly Bears Adapt to Seasonal Food Changes:"
+      }
     },
     next: "/complete",
     funFact: "Grizzly bears can run up to 35 miles per hour, faster than most humans!"
