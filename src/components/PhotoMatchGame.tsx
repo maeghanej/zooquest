@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
+import { buttonStyles, cardStyles, textStyles, gameStyles } from "../utils/styles.ts";
 
 interface PhotoMatchGameProps {
   question: string;
   images: { src: string; alt: string; isCorrect: boolean; explanation: string }[];
+  gameContent: {
+    title: string;
+    description: string;
+    summaryTitle?: string;
+  };
   onComplete: () => void;
 }
 
-export default function PhotoMatchGame({ question, images, onComplete }: PhotoMatchGameProps) {
+export default function PhotoMatchGame({ question, images, gameContent, onComplete }: PhotoMatchGameProps) {
   const [clickedImages, setClickedImages] = useState<Set<number>>(new Set());
   const [hasCorrectAnswer, setHasCorrectAnswer] = useState(false);
   const [attempts, setAttempts] = useState<number>(0);
@@ -47,14 +53,12 @@ export default function PhotoMatchGame({ question, images, onComplete }: PhotoMa
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">Photo Match Challenge</h3>
-        <p className="text-gray-600 text-lg">{question}</p>
-        <p className="text-sm text-gray-500 mt-2">
-          Choose the correct photo to learn more!
-        </p>
+        <h3 className={`${textStyles.h3} mb-2`}>{gameContent.title}</h3>
+        <p className={`${gameStyles.question} mb-2`}>{question}</p>
+        <p className={`${gameStyles.instruction}`}>{gameContent.description}</p>
       </div>
       
-      <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+      <div className={gameStyles.optionsGrid}>
         {images.map((img, idx) => {
           const isClicked = clickedImages.has(idx);
           const isCorrect = img.isCorrect;
@@ -66,11 +70,11 @@ export default function PhotoMatchGame({ question, images, onComplete }: PhotoMa
                 className={`border-2 p-2 rounded-lg transition-all duration-200 ${
                   isClicked
                     ? isCorrect
-                      ? "border-green-500 bg-green-50"
-                      : "border-red-500 bg-red-50"
+                      ? gameStyles.choiceCorrect
+                      : gameStyles.choiceIncorrect
                     : hasCorrectAnswer && isCorrect
-                    ? "border-green-500 bg-green-50"
-                    : "border-gray-300"
+                    ? gameStyles.choiceCorrect
+                    : gameStyles.choiceDefault
                 } ${
                   hasCorrectAnswer 
                     ? "cursor-default" 
@@ -112,11 +116,11 @@ export default function PhotoMatchGame({ question, images, onComplete }: PhotoMa
                     </div>
                   )}
                   
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <h4 className="font-semibold text-blue-800 mb-1 text-sm">
+                  <div className={cardStyles.fact}>
+                    <h4 className={`${textStyles.accent} font-semibold mb-1 text-sm`}>
                       {img.alt}
                     </h4>
-                    <p className="text-xs text-blue-700">
+                    <p className={`${textStyles.bodySmall} text-primary`}>
                       {img.explanation}
                     </p>
                   </div>
@@ -131,7 +135,7 @@ export default function PhotoMatchGame({ question, images, onComplete }: PhotoMa
         <div className="text-center">
           <button
             onClick={handleContinue}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.success}
           >
             Continue to Next Animal
           </button>

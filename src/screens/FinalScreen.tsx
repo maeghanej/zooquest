@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useScoreStore } from "../store/scoreStore.ts";
 import { getBadgeTier } from "../utils/badgeUtils.ts";
+import { buttonStyles, cardStyles, textStyles, layoutStyles } from "../utils/styles.ts";
 
 export default function FinalScreen() {
   const { totalScore, maxScore, resetScore } = useScoreStore();
@@ -11,11 +12,11 @@ export default function FinalScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md mx-4 text-center">
+    <div className={`${layoutStyles.screenContainer} ${layoutStyles.finalBackground}`}>
+      <div className={cardStyles.screen}>
         <div className="text-6xl mb-6">{badge.emoji}</div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Congratulations!</h2>
-        <p className="text-gray-600 mb-8 text-lg">
+        <h2 className={`${textStyles.h2} mb-4`}>Congratulations!</h2>
+        <p className={`${textStyles.bodyLarge} mb-8`}>
           You've completed the Wild Canada Quest!
         </p>
         
@@ -24,19 +25,19 @@ export default function FinalScreen() {
           <p className="text-lg opacity-90">{badge.description}</p>
         </div>
         
-        <div className="bg-blue-50 p-4 rounded-lg mb-8">
-          <h3 className="font-semibold text-blue-800 mb-2">Your Score:</h3>
-          <p className="text-2xl font-bold text-blue-600">
+        <div className={`${cardStyles.fact} mb-8`}>
+          <h3 className={`${textStyles.accent} font-semibold mb-2`}>Your Score:</h3>
+          <p className="text-2xl font-bold text-secondary">
             {totalScore} / {maxScore}
           </p>
-          <p className="text-sm text-blue-700 mt-1">
+          <p className={`${textStyles.bodySmall} text-primary mt-1`}>
             {maxScore > 0 ? `${Math.round((totalScore / maxScore) * 100)}%` : "0%"}
           </p>
         </div>
 
-        <div className="bg-yellow-50 p-4 rounded-lg mb-8">
-          <h3 className="font-semibold text-yellow-800 mb-2">What you discovered:</h3>
-          <ul className="text-sm text-yellow-700 space-y-1">
+        <div className={`${cardStyles.fact} mb-8`}>
+          <h3 className={`${textStyles.accent} font-semibold mb-2`}>What you discovered:</h3>
+          <ul className={`${textStyles.bodySmall} text-primary space-y-1`}>
             <li>• Bighorn sheep mountain skills</li>
             <li>• Caribou antler matching</li>
             <li>• Polar bear behavior</li>
@@ -46,15 +47,15 @@ export default function FinalScreen() {
           </ul>
         </div>
 
-        <div className="space-y-4">
+        <div className={layoutStyles.itemSpacing}>
           <Link 
             to="/" 
-            className="inline-block bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors duration-200 w-full"
+            className={`inline-block ${buttonStyles.large} w-full`}
             onClick={handlePlayAgain}
           >
             Play Again
           </Link>
-          <p className="text-sm text-gray-500">
+          <p className={`${textStyles.bodySmall} ${textStyles.muted}`}>
             Thanks for exploring Canada's wildlife!
           </p>
         </div>

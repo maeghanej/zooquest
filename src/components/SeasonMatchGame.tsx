@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
+import { buttonStyles, cardStyles, textStyles, gameStyles } from "../utils/styles.ts";
 
 interface BehaviorOption {
   label: string;
@@ -67,15 +68,15 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
-        <p className="text-gray-600 text-lg">{question}</p>
-        <p className="text-sm text-gray-500 mt-2">
+        <h3 className={`${textStyles.h3} mb-2`}>{gameContent.title}</h3>
+        <p className={`${gameStyles.question} mb-2`}>{question}</p>
+        <p className={`${gameStyles.instruction}`}>
           {gameContent.description}
         </p>
       </div>
       
       <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">Select a Behavior:</h4>
+        <h4 className={`${textStyles.h4} mb-3 text-center`}>Select a Behavior:</h4>
         <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
           {behaviors.map((behavior, idx) => (
             <button
@@ -83,8 +84,8 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
               onClick={() => setSelectedBehavior(idx)}
               className={`border-2 px-4 py-3 rounded-lg font-semibold transition-all duration-200 ${
                 selectedBehavior === idx
-                  ? "border-blue-500 bg-blue-50 text-blue-800"
-                  : "border-gray-300 hover:border-blue-400"
+                  ? gameStyles.choiceSelected
+                  : gameStyles.choiceDefault
               } cursor-pointer`}
             >
               {behavior.label}
@@ -94,7 +95,7 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
       </div>
 
       <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">Assign to Seasons:</h4>
+        <h4 className={`${textStyles.h4} mb-3 text-center`}>Assign to Seasons:</h4>
         <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
           {seasons.map((season) => {
             const assigned = assignments[season];
@@ -107,9 +108,9 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
                 className={`border-2 p-4 rounded-lg text-center transition-all duration-200 cursor-pointer ${
                   showResults
                     ? isCorrect
-                      ? "border-green-500 bg-green-50"
-                      : "border-red-500 bg-red-50"
-                    : "border-gray-300 hover:border-blue-400"
+                      ? gameStyles.choiceCorrect
+                      : gameStyles.choiceIncorrect
+                    : gameStyles.choiceDefault
                 }`}
                 onClick={() => handleAssign(season)}
               >
@@ -118,11 +119,11 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
                     {getSeasonEmoji(season)}
                   </div>
                 </div>
-                <div className="font-semibold text-gray-800 mb-2 capitalize">{season}</div>
+                <div className={`${textStyles.bodySmall} font-semibold text-primary mb-2 capitalize`}>{season}</div>
                 
                 {!showResults ? (
-                  <div className="text-sm text-gray-600">
-                    {assigned || <span className="text-gray-400">[Click to assign]</span>}
+                  <div className={`${textStyles.bodySmall} text-primary`}>
+                    {assigned || <span className={textStyles.muted}>[Click to assign]</span>}
                   </div>
                 ) : (
                   <div className="text-sm space-y-1">
@@ -152,7 +153,7 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
         <div className="text-center">
           <button
             onClick={() => setShowResults(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.primary}
           >
             Submit Answers
           </button>
@@ -161,15 +162,15 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
 
       {showResults && (
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800 mb-4">
+          <div className={`${textStyles.bodyLarge} font-semibold text-primary mb-4`}>
             Final Score: {correctAssignments} out of {seasons.length} correct!
           </div>
           
-          <div className="bg-blue-50 p-6 rounded-lg max-w-2xl mx-auto mb-6">
-            <h4 className="font-semibold text-blue-800 mb-3 text-lg">
+          <div className={`${cardStyles.fact} max-w-2xl mx-auto mb-6`}>
+            <h4 className={`${textStyles.accent} font-semibold mb-3 text-lg`}>
               {gameContent.summaryTitle || "How This Animal Adapts:"}
             </h4>
-            <div className="text-sm text-blue-700 space-y-3">
+            <div className={`${textStyles.bodySmall} text-primary space-y-3`}>
               <p>
                 <strong>🌸 Spring:</strong> After hibernation, bears emerge hungry and immediately search for early spring vegetation, 
                 winter-killed animals, and newborn ungulates to replenish their energy.
@@ -191,7 +192,7 @@ export default function SeasonMatchGame({ question, behaviors, gameContent, onCo
 
           <button
             onClick={handleContinue}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.success}
           >
             Continue to Next Animal
           </button>

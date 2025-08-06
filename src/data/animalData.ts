@@ -110,7 +110,12 @@ export const animalData: Record<string, AnimalData> = {
           isCorrect: false,
           explanation: "Elk antlers are very large and have a distinctive branching pattern. Only male elk grow antlers, and they can reach impressive sizes with many points."
         }
-      ]
+      ],
+      gameContent: {
+        title: "Caribou Antler Challenge",
+        description: "Learn to identify caribou antlers and discover what makes them unique!",
+        summaryTitle: "Why Antlers Matter for Caribou:"
+      }
     },
     next: "/stop/polarbear",
     funFact: "Caribou are the only deer species where both males and females grow antlers!"

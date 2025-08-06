@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
+import { buttonStyles, cardStyles, textStyles, gameStyles } from "../utils/styles.ts";
 
 interface SortOption {
   src: string;
@@ -54,23 +55,23 @@ export default function PhotoSortGame({ question, options, sortCategories, onCom
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{sortCategories.title}</h3>
-        <p className="text-gray-600 text-lg">{question}</p>
-        <p className="text-sm text-gray-500 mt-2">
+        <h3 className={`${textStyles.h3} mb-2`}>{sortCategories.title}</h3>
+        <p className={`${gameStyles.question} mb-2`}>{question}</p>
+        <p className={`${gameStyles.instruction}`}>
           {sortCategories.description}
         </p>
       </div>
       
-      <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+      <div className={gameStyles.optionsGrid}>
         {options.map((item, idx) => (
           <div 
             key={idx} 
             className={`border-2 p-4 rounded-lg text-center transition-all duration-200 ${
               showResult && idx === selectedItem
                 ? choices[idx] === (item.isCorrect ? "yes" : "no")
-                  ? "border-green-500 bg-green-50"
-                  : "border-red-500 bg-red-50"
-                : "border-gray-300 hover:border-blue-400"
+                  ? gameStyles.choiceCorrect
+                  : gameStyles.choiceIncorrect
+                : gameStyles.choiceDefault
             }`}
           >
             <div className="aspect-square bg-gray-100 rounded flex items-center justify-center mb-3 overflow-hidden">
@@ -94,17 +95,17 @@ export default function PhotoSortGame({ question, options, sortCategories, onCom
             {choices[idx] === null ? (
               // Show food name and buttons
               <>
-                <p className="text-sm font-medium text-gray-700 mb-3">{item.alt}</p>
+                <p className={`${textStyles.bodySmall} font-medium text-primary mb-3`}>{item.alt}</p>
                 
                 <div className="flex justify-center gap-2">
                   <button
-                    className="px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 border-gray-300 hover:border-green-400 cursor-pointer"
+                    className={`px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${gameStyles.choiceDefault} hover:border-green-400`}
                     onClick={() => handleChoice(idx, "yes")}
                   >
                     ✅ {sortCategories.positive}
                   </button>
                   <button
-                    className="px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 border-gray-300 hover:border-red-400 cursor-pointer"
+                    className={`px-3 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${gameStyles.choiceDefault} hover:border-red-400`}
                     onClick={() => handleChoice(idx, "no")}
                   >
                     ❌ {sortCategories.negative}
@@ -128,11 +129,11 @@ export default function PhotoSortGame({ question, options, sortCategories, onCom
                   }
                 </div>
                 
-                <div className="text-left">
-                  <h4 className="font-semibold text-gray-800 mb-2 text-sm">
+                <div className={`${cardStyles.fact} text-left`}>
+                  <h4 className={`${textStyles.accent} font-semibold mb-2 text-sm`}>
                     {item.alt}
                   </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed">
+                  <p className={`${textStyles.bodySmall} text-primary leading-relaxed`}>
                     {item.explanation}
                   </p>
                 </div>
@@ -144,12 +145,12 @@ export default function PhotoSortGame({ question, options, sortCategories, onCom
 
       {allAnswered && (
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800 mb-4">
+          <div className={`${textStyles.bodyLarge} font-semibold text-primary mb-4`}>
             Final Score: {correctAnswers} out of {options.length} correct!
           </div>
           <button
             onClick={handleContinue}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.success}
           >
             Continue to Next Animal
           </button>

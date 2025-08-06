@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
+import { buttonStyles, cardStyles, textStyles, gameStyles, layoutStyles, cn } from "../utils/styles.ts";
 
 interface TrueFalseQuestion {
   question: string;
@@ -63,19 +64,19 @@ export default function TrueFalseGame({ questions, gameContent, onComplete }: Tr
   };
 
   return (
-    <div className="space-y-6">
+    <div className={layoutStyles.sectionSpacing}>
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
-        <p className="text-gray-600 text-lg">{currentQuestion.question}</p>
-        <p className="text-sm text-gray-500 mt-2">
+        <h3 className={`${textStyles.h3} mb-2`}>{gameContent.title}</h3>
+        <p className={`${gameStyles.question} mb-2`}>{currentQuestion.question}</p>
+        <p className={`${gameStyles.instruction}`}>
           {gameContent.description}
         </p>
         <div className="mt-4">
-          <div className="text-sm text-gray-600 mb-2">
+          <div className={`${gameStyles.progress} mb-2`}>
             Question {currentQuestionIndex + 1} of {questions.length}
           </div>
           {answers.length > 0 && (
-            <div className="text-sm text-blue-600 font-semibold">
+            <div className={`${textStyles.accent} text-sm font-semibold`}>
               {getProgressText()}
             </div>
           )}
@@ -84,26 +85,30 @@ export default function TrueFalseGame({ questions, gameContent, onComplete }: Tr
       
       <div className="flex justify-center gap-4">
         <button
-          className={`px-8 py-4 rounded-lg border-2 font-semibold text-lg transition-all duration-200 transform hover:scale-105 ${
+          className={cn(
+            buttonStyles.choice,
             showResult && selected === true
               ? currentQuestion.correctAnswer
-                ? "border-green-500 bg-green-50 text-green-800"
-                : "border-red-500 bg-red-50 text-red-800"
-              : "border-gray-300 hover:border-blue-400 bg-white"
-          } ${showResult ? "cursor-default" : "cursor-pointer"}`}
+                ? gameStyles.choiceCorrect
+                : gameStyles.choiceIncorrect
+              : gameStyles.choiceDefault,
+            showResult ? "cursor-default" : "cursor-pointer"
+          )}
           onClick={() => handleSelect(true)}
           disabled={showResult}
         >
           ✅ True
         </button>
         <button
-          className={`px-8 py-4 rounded-lg border-2 font-semibold text-lg transition-all duration-200 transform hover:scale-105 ${
+          className={cn(
+            buttonStyles.choice,
             showResult && selected === false
               ? !currentQuestion.correctAnswer
-                ? "border-green-500 bg-green-50 text-green-800"
-                : "border-red-500 bg-red-50 text-red-800"
-              : "border-gray-300 hover:border-blue-400 bg-white"
-          } ${showResult ? "cursor-default" : "cursor-pointer"}`}
+                ? gameStyles.choiceCorrect
+                : gameStyles.choiceIncorrect
+              : gameStyles.choiceDefault,
+            showResult ? "cursor-default" : "cursor-pointer"
+          )}
           onClick={() => handleSelect(false)}
           disabled={showResult}
         >
@@ -113,11 +118,12 @@ export default function TrueFalseGame({ questions, gameContent, onComplete }: Tr
       
       {showResult && selected !== null && (
         <div className="text-center">
-          <div className={`inline-flex items-center px-4 py-2 rounded-lg font-semibold mb-4 ${
+          <div className={cn(
+            "inline-flex items-center px-4 py-2 rounded-lg font-semibold mb-4",
             selected === currentQuestion.correctAnswer 
               ? "bg-green-100 text-green-800" 
               : "bg-red-100 text-red-800"
-          }`}>
+          )}>
             <span className="text-xl mr-2">
               {selected === currentQuestion.correctAnswer ? "✅" : "❌"}
             </span>
@@ -127,18 +133,18 @@ export default function TrueFalseGame({ questions, gameContent, onComplete }: Tr
             }
           </div>
           
-          <div className="bg-blue-50 p-4 rounded-lg max-w-md mx-auto mb-6">
-            <h4 className="font-semibold text-blue-800 mb-2">
+          <div className={`${cardStyles.fact} max-w-md mx-auto mb-6`}>
+            <h4 className={`${textStyles.accent} font-semibold mb-2`}>
               {gameContent.summaryTitle || "Why This Matters:"}
             </h4>
-            <p className="text-sm text-blue-700">
+            <p className={`${textStyles.bodySmall}`}>
               {currentQuestion.explanation}
             </p>
           </div>
 
           <button
             onClick={handleNextQuestion}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.success}
           >
             {isLastQuestion ? "Continue to Next Animal" : "Next Question"}
           </button>

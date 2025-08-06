@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useScoreStore } from "../store/scoreStore.ts";
+import { buttonStyles, cardStyles, textStyles, gameStyles } from "../utils/styles.ts";
 
 interface SortItem {
   label: string;
@@ -58,9 +59,9 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{gameContent.title}</h3>
-        <p className="text-gray-600 text-lg">{question}</p>
-        <p className="text-sm text-gray-500 mt-2">
+        <h3 className={`${textStyles.h3} mb-2`}>{gameContent.title}</h3>
+        <p className={`${gameStyles.question} mb-2`}>{question}</p>
+        <p className={`${gameStyles.instruction}`}>
           {gameContent.description}
         </p>
       </div>
@@ -71,22 +72,22 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
             key={idx} 
             className={`border-2 p-4 rounded-lg transition-all duration-200 ${
               showResult && assignments[idx] === item.correctGroup
-                ? "border-green-500 bg-green-50"
+                ? gameStyles.choiceCorrect
                 : showResult && assignments[idx] !== item.correctGroup
-                ? "border-red-500 bg-red-50"
-                : "border-gray-300"
+                ? gameStyles.choiceIncorrect
+                : gameStyles.choiceDefault
             }`}
           >
-            <p className="mb-3 font-medium text-gray-800">{item.label}</p>
+            <p className={`mb-3 font-medium ${textStyles.body}`}>{item.label}</p>
             
             {!showResult ? (
               <div className="flex gap-2 justify-center">
                 <button
                   className={`px-4 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${
                     assignments[idx] === categoryKeys[0]
-                      ? "bg-purple-200 border-purple-400" 
-                      : "border-gray-300 hover:border-purple-400"
-                  }`}
+                      ? gameStyles.choiceSelected
+                      : gameStyles.choiceDefault
+                  } hover:border-secondary`}
                   onClick={() => handleAssign(idx, categoryKeys[0])}
                 >
                   {categories.option1.emoji} {categories.option1.label}
@@ -94,9 +95,9 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
                 <button
                   className={`px-4 py-2 rounded-lg border-2 font-semibold text-sm transition-all duration-200 ${
                     assignments[idx] === categoryKeys[1]
-                      ? "bg-yellow-200 border-yellow-400" 
-                      : "border-gray-300 hover:border-yellow-400"
-                  }`}
+                      ? gameStyles.choiceSelected
+                      : gameStyles.choiceDefault
+                  } hover:border-secondary`}
                   onClick={() => handleAssign(idx, categoryKeys[1])}
                 >
                   {categories.option2.emoji} {categories.option2.label}
@@ -121,8 +122,8 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
                   </span>
                 </div>
                 
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <p className="text-xs text-blue-700">
+                <div className={cardStyles.fact}>
+                  <p className={`${textStyles.bodySmall} text-primary`}>
                     {item.explanation}
                   </p>
                 </div>
@@ -135,7 +136,7 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
       {allAssigned && !showResult && (
         <div className="text-center">
           <button 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200" 
+            className={buttonStyles.primary}
             onClick={handleSubmit}
           >
             Submit Answers
@@ -145,12 +146,12 @@ export default function TextSortGame({ question, items, gameContent, onComplete 
 
       {showResult && (
         <div className="text-center">
-          <div className="text-lg font-semibold text-gray-800 mb-4">
+          <div className={`${textStyles.bodyLarge} font-semibold text-primary mb-4`}>
             Final Score: {items.reduce((acc, item, idx) => acc + (assignments[idx] === item.correctGroup ? 1 : 0), 0)} out of {items.length} correct!
           </div>
           <button
             onClick={handleContinue}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200"
+            className={buttonStyles.success}
           >
             Continue to Next Animal
           </button>
